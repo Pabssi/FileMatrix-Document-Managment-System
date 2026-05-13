@@ -1,0 +1,107 @@
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "User Management";
+}
+
+@section Head {
+    <link rel="stylesheet" href="~/css/superadmin/users.css" asp-append-version="true" />
+}
+
+<div class="superadmin-header reveal-on-scroll d-flex flex-wrap justify-content-between align-items-start gap-3">
+    <div>
+        <h1>System Users</h1>
+        <p class="mb-0">Global view of all registered platform users.</p>
+    </div>
+    <a asp-area="SuperAdmin" asp-controller="SuperAdmin" asp-action="CreateSuperAdmin" class="btn btn-dark btn-sm rounded-pill px-4 fw-bold align-self-center">Invite Super Admin</a>
+</div>
+
+<div class="user-table-card reveal-on-scroll">
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Email Address</th>
+                    <th>System Role</th>
+                    <th>Status</th>
+                    <th>2FA / MFA</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Users != null)
+                {
+                    foreach (var user in ViewBag.Users)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="user-avatar" style="@(!user.IsActive ? "background: #94a3b8;" : "")">
+                                        @(user.UserName?.Substring(0, 1).ToUpper() ?? "U")
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">@user.UserName</div>
+                                        <div class="small text-muted">ID: #@user.Id</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@user.Email</td>
+                            <td>
+                                <span class="role-badge @(user.Role == "SuperAdmin" ? "role-badge--superadmin" : "")">
+                                    @user.Role
+                                </span>
+                            </td>
+                            <td>
+                                @if (user.IsActive)
+                                {
+                                    <span class="status-badge status-badge--active" style="display:inline-flex; align-items:center; gap:0.375rem; padding:0.25rem 0.75rem; border-radius:999px; font-size:0.75rem; font-weight:600; background:#ecfdf5; color:#059669;">
+                                        <span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-badge--suspended" style="display:inline-flex; align-items:center; gap:0.375rem; padding:0.25rem 0.75rem; border-radius:999px; font-size:0.75rem; font-weight:600; background:#fef2f2; color:#dc2626;">
+                                        <span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
+                                        Suspended
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-area="SuperAdmin" asp-controller="UserSecurity" asp-action="Security" asp-route-id="@user.Id" class="text-decoration-none fw-semibold small">Manage sign-in security</a>
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <form asp-area="SuperAdmin" asp-controller="SuperAdmin" asp-action="ToggleUserStatus" asp-route-id="@user.Id" method="post" class="d-inline">
+                                        <input type="hidden" name="actionConfirmationPin" value="" autocomplete="off" />
+                                        <button type="button"
+                                                class="action-btn @(user.IsActive ? "action-btn--danger" : "")"
+                                                title="@(user.IsActive ? "Suspend User" : "Activate User")"
+                                                data-fm-superadmin-confirm-toggle
+                                                data-fm-superadmin-target-user-id="@user.Id"
+                                                data-fm-superadmin-target-active="@(user.IsActive ? "true" : "false")">
+                                            @if (user.IsActive)
+                                            {
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                                            }
+                                            else
+                                            {
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                            }
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">No users discovered.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

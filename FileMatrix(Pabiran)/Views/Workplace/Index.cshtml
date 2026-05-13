@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Get Started - Workspaces";
+    var userName = User?.Identity?.Name ?? "Admin User";
+}
+
+<div class="workspace-hero">
+    <div class="container py-5 py-md-6">
+        <div class="text-center mb-5">
+            <div class="workspace-logo-card mb-3">
+                <div class="workspace-logo-inner"></div>
+            </div>
+            <h1 class="workspace-brand mb-1">FileMatrix</h1>
+            <p class="workspace-greeting mb-1">Welcome, @userName!</p>
+            <p class="workspace-subtitle">Let's set up your workspace to get started</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-5">
+                <div class="workspace-card h-100">
+                    <div class="workspace-card-icon workspace-card-icon-primary">
+                        <span class="workspace-card-icon-glyph">
+                            <!-- simple building icon style -->
+                            <span class="workspace-card-icon-bar"></span>
+                            <span class="workspace-card-icon-bar"></span>
+                            <span class="workspace-card-icon-bar"></span>
+                        </span>
+                    </div>
+                    <h3 class="workspace-card-title">Create Workspace</h3>
+                    <p class="workspace-card-text">
+                        Set up a new workspace for your business, team, or personal use. You'll have full control.
+                    </p>
+                    <a class="workspace-card-link" asp-action="Create">
+                        Get Started
+                        <span class="workspace-card-link-arrow">&rarr;</span>
+                    </a>
+                    <hr class="workspace-card-separator" />
+                    <ul class="workspace-card-benefits">
+                        <li><span class="workspace-check"></span>Full administrative access</li>
+                        <li><span class="workspace-check"></span>Invite team members</li>
+                        <li><span class="workspace-check"></span>Customize settings</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="workspace-card h-100">
+                    <div class="workspace-card-icon workspace-card-icon-secondary">
+                        <span class="workspace-card-icon-glyph workspace-card-icon-glyph-users"></span>
+                    </div>
+                    <h3 class="workspace-card-title">Join Workspace</h3>
+                    <p class="workspace-card-text">
+                        Have an invite code? Join an existing workspace and collaborate with your team.
+                    </p>
+                    <a class="workspace-card-link" asp-action="Join">
+                        Join Now
+                        <span class="workspace-card-link-arrow">&rarr;</span>
+                    </a>
+                    <hr class="workspace-card-separator" />
+                    <ul class="workspace-card-benefits">
+                        <li><span class="workspace-check"></span>Quick access to team documents</li>
+                        <li><span class="workspace-check"></span>Seamless collaboration</li>
+                        <li><span class="workspace-check"></span>Instant connectivity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Head {
+    <link rel="stylesheet" href="~/css/pages/workplace.css" asp-append-version="true" />
+}

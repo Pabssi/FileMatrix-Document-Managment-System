@@ -1,0 +1,341 @@
+@*
+    FileMatrix Public Landing Page.
+    
+    RESPONSIBILITY: Provides the gateway/marketing interface for the platform.
+    UI STRATEGY: 
+    1. Reveal-on-Scroll: Uses IntersectionObserver (via site.js) to trigger 
+       CSS animations as the user navigates.
+    2. Deep-Link Modals: Uses data-auth-tab and site.js routing to allow 
+       direct access to Login/Register panes from CTA buttons.
+    3. Mockup Mock: The 'Hero Card' (Dashboard Preview) is purely CSS/SVG 
+       to ensure zero-latency loading and perfect layout alignment.
+*@
+@{
+    ViewData["Title"] = "FileMatrix - Home";
+    ViewData["hideMainNav"] = true;
+}
+
+<partial name="_LandingNav" />
+
+<main class="landing-page">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="landing-hero">
+        <div class="landing-hero-bg"></div>
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <!-- Left Column -->
+                <div class="col-lg-6 mb-5 mb-lg-0 reveal-on-scroll">
+                    <div class="landing-badge">
+                        <span class="landing-badge-dot"></span>
+                        Document Management Platform
+                    </div>
+
+                    <h1 class="landing-hero-title">
+                        Organize documents,<br/>
+                        <span class="landing-hero-title-accent">work efficiently.</span>
+                    </h1>
+
+                    <p class="landing-hero-desc">
+                        FileMatrix helps teams manage documents with precision and security. 
+                        Upload, organize, version-control, and collaborate — all in one place.
+                    </p>
+
+                    <div class="d-flex flex-column flex-sm-row gap-3 mb-5">
+                        <a href="#"
+                           class="landing-btn-primary"
+                           data-bs-toggle="modal"
+                           data-bs-target="#authModal"
+                           data-auth-tab="register">
+                            Get Started Free
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:6px;">
+                                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <a href="#features" class="landing-btn-ghost">Learn More</a>
+                    </div>
+
+                    <div class="landing-hero-stats">
+                        <div class="landing-hero-stat">
+                            <div class="landing-hero-stat-value">500+</div>
+                            <div class="landing-hero-stat-label">Organizations</div>
+                        </div>
+                        <div class="landing-hero-stat-divider"></div>
+                        <div class="landing-hero-stat">
+                            <div class="landing-hero-stat-value">2M+</div>
+                            <div class="landing-hero-stat-label">Documents</div>
+                        </div>
+                        <div class="landing-hero-stat-divider"></div>
+                        <div class="landing-hero-stat">
+                            <div class="landing-hero-stat-value">99.9%</div>
+                            <div class="landing-hero-stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Dashboard Preview -->
+                <div class="col-lg-6 reveal-on-scroll">
+                    <div class="landing-hero-card">
+                        <div class="landing-hero-card-header">
+                            <div class="landing-hero-card-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <span class="landing-hero-card-title">FileMatrix Dashboard</span>
+                        </div>
+                        <div class="landing-hero-card-body">
+                            <div class="landing-hero-card-row">
+                                <div class="landing-hero-card-icon" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 7V17C3 18.1 3.9 19 5 19H19C20.1 19 21 18.1 21 17V9C21 7.9 20.1 7 19 7H13L11 5H5C3.9 5 3 5.9 3 7Z" stroke="#3b82f6" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold" style="font-size:0.9rem;color:#1e293b;">Smart Organization</div>
+                                    <div style="font-size:0.78rem;color:#94a3b8;">Auto-categorize and tag documents</div>
+                                </div>
+                                <span class="landing-hero-card-tag" style="background:#eff6ff;color:#3b82f6;">Active</span>
+                            </div>
+                            <div class="landing-hero-card-row">
+                                <div class="landing-hero-card-icon" style="background:linear-gradient(135deg,#eef2ff,#e0e7ff);">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="#6366f1" stroke-width="1.5"/><path d="M8 11V7C8 4.79 9.79 3 12 3C14.21 3 16 4.79 16 7V11" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold" style="font-size:0.9rem;color:#1e293b;">Secure Storage</div>
+                                    <div style="font-size:0.78rem;color:#94a3b8;">256-bit encryption at rest</div>
+                                </div>
+                                <span class="landing-hero-card-tag" style="background:#eef2ff;color:#6366f1;">Enabled</span>
+                            </div>
+                            <div class="landing-hero-card-row">
+                                <div class="landing-hero-card-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" stroke="#d97706" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold" style="font-size:0.9rem;color:#1e293b;">Instant Search</div>
+                                    <div style="font-size:0.78rem;color:#94a3b8;">Find any file in milliseconds</div>
+                                </div>
+                                <span class="landing-hero-card-tag" style="background:#fff7ed;color:#d97706;">Fast</span>
+                            </div>
+                            <div class="landing-hero-card-row">
+                                <div class="landing-hero-card-icon" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 12L11 14L15 10" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#059669" stroke-width="1.5"/></svg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold" style="font-size:0.9rem;color:#1e293b;">Version Control</div>
+                                    <div style="font-size:0.78rem;color:#94a3b8;">Track every change with rollback</div>
+                                </div>
+                                <span class="landing-hero-card-tag" style="background:#ecfdf5;color:#059669;">v2.4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ===================== FEATURES ===================== -->
+    <section id="features" class="landing-section">
+        <div class="container">
+            <div class="text-center mb-5 reveal-on-scroll">
+                <div class="landing-section-badge">Features</div>
+                <h2 class="landing-section-title">Everything you need</h2>
+                <p class="landing-section-subtitle">Powerful features designed for modern document management.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#eef2ff,#e0e7ff);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="#6366f1" stroke-width="1.5"/><path d="M8 11V7C8 4.79 9.79 3 12 3C14.21 3 16 4.79 16 7V11" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Enterprise Security</h5>
+                        <p class="landing-feature-desc">Bank-level encryption with strict compliance and access controls.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" stroke="#d97706" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Instant Search</h5>
+                        <p class="landing-feature-desc">Find any document in milliseconds with intelligent full-text search.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#ec4899" stroke-width="1.5"/><path d="M6 21V19C6 16.79 7.79 15 10 15H14C16.21 15 18 16.79 18 19V21" stroke="#ec4899" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Role Management</h5>
+                        <p class="landing-feature-desc">Granular access with Admin, Editor, and Viewer permissions.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 8V12L15 15" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#059669" stroke-width="1.5"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Version Control</h5>
+                        <p class="landing-feature-desc">Track changes with automatic versioning and instant rollback.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M19 11H5M19 11C20.1 11 21 11.9 21 13V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V13C3 11.9 3.9 11 5 11M19 11V9C19 7.9 18.1 7 17 7M5 11V9C5 7.9 5.9 7 7 7M7 7V5C7 3.9 7.9 3 9 3H15C16.1 3 17 3.9 17 5V7M7 7H17" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Cloud Storage</h5>
+                        <p class="landing-feature-desc">Unlimited storage with automatic backups and high availability.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#fef2f2,#fecaca);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="#ef4444" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2V8H20" stroke="#ef4444" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 13H16M8 17H13" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Audit Logs</h5>
+                        <p class="landing-feature-desc">Complete activity tracking for compliance and security monitoring.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 20V10M12 20V4M6 20V14" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Analytics</h5>
+                        <p class="landing-feature-desc">Real-time insights into document usage and team productivity.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="landing-feature-card reveal-on-scroll">
+                        <div class="landing-feature-icon" style="background:linear-gradient(135deg,#fff7ed,#fed7aa);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 4H10V10H4V4Z" stroke="#ea580c" stroke-width="1.5"/><path d="M14 4H20V10H14V4Z" stroke="#ea580c" stroke-width="1.5"/><path d="M4 14H10V20H4V14Z" stroke="#ea580c" stroke-width="1.5"/><path d="M17 14V20M14 17H20" stroke="#ea580c" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <h5 class="landing-feature-title">Smart Workflows</h5>
+                        <p class="landing-feature-desc">Automated approvals and intelligent document routing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== BENEFITS ===================== -->
+    <section id="benefits" class="landing-section landing-section-alt">
+        <div class="container">
+            <div class="text-center mb-5 reveal-on-scroll">
+                <div class="landing-section-badge">Benefits</div>
+                <h2 class="landing-section-title">Why FileMatrix</h2>
+                <p class="landing-section-subtitle">Built for teams that value efficiency and security.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-benefit-card reveal-on-scroll">
+                        <div class="landing-benefit-metric" style="color:#4f46e5;">40%</div>
+                        <div class="landing-benefit-metric-label">faster workflows</div>
+                        <h5 class="landing-benefit-title">Increase Productivity</h5>
+                        <p class="landing-benefit-desc">Streamline workflows and eliminate bottlenecks across your entire team.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-benefit-card reveal-on-scroll">
+                        <div class="landing-benefit-metric" style="color:#0f766e;">256-bit</div>
+                        <div class="landing-benefit-metric-label">encryption</div>
+                        <h5 class="landing-benefit-title">Enterprise Security</h5>
+                        <p class="landing-benefit-desc">Military-grade protection with strong encryption and audit compliance.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-benefit-card reveal-on-scroll">
+                        <div class="landing-benefit-metric" style="color:#ea580c;">10&times;</div>
+                        <div class="landing-benefit-metric-label">faster sharing</div>
+                        <h5 class="landing-benefit-title">Better Collaboration</h5>
+                        <p class="landing-benefit-desc">Work together with real-time sharing, comments, and team workspaces.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-benefit-card reveal-on-scroll">
+                        <div class="landing-benefit-metric" style="color:#1d4ed8;">24/7</div>
+                        <div class="landing-benefit-metric-label">availability</div>
+                        <h5 class="landing-benefit-title">Access Anywhere</h5>
+                        <p class="landing-benefit-desc">Secure access from any device, any location, on or offline.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section id="how-it-works" class="landing-section">
+        <div class="container">
+            <div class="text-center mb-5 reveal-on-scroll">
+                <div class="landing-section-badge">Process</div>
+                <h2 class="landing-section-title">How it works</h2>
+                <p class="landing-section-subtitle">Get started in four simple steps.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-step-card reveal-on-scroll">
+                        <div class="landing-step-number">01</div>
+                        <div class="landing-step-line"></div>
+                        <h5 class="landing-step-title">Upload &amp; Organize</h5>
+                        <p class="landing-step-desc">Import documents via upload or drag-and-drop and organize with folders and tags.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-step-card reveal-on-scroll">
+                        <div class="landing-step-number">02</div>
+                        <div class="landing-step-line"></div>
+                        <h5 class="landing-step-title">Structure &amp; Control</h5>
+                        <p class="landing-step-desc">Set permissions, define roles, and configure workflows and version control.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-step-card reveal-on-scroll">
+                        <div class="landing-step-number">03</div>
+                        <div class="landing-step-line"></div>
+                        <h5 class="landing-step-title">Collaborate &amp; Share</h5>
+                        <p class="landing-step-desc">Invite teammates, share documents securely, and collaborate in real time.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="landing-step-card reveal-on-scroll">
+                        <div class="landing-step-number">04</div>
+                        <div class="landing-step-line"></div>
+                        <h5 class="landing-step-title">Monitor &amp; Optimize</h5>
+                        <p class="landing-step-desc">Track usage with analytics and audit logs, then optimize your workflows.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="landing-cta-section">
+        <div class="landing-cta-bg"></div>
+        <div class="container position-relative reveal-on-scroll">
+            <div class="landing-cta-inner">
+                <h2 class="landing-cta-title">Ready to get started?</h2>
+                <p class="landing-cta-desc">Join hundreds of organizations managing documents smarter with FileMatrix.</p>
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a href="#"
+                       class="landing-btn-primary landing-btn-lg"
+                       data-bs-toggle="modal"
+                       data-bs-target="#authModal"
+                       data-auth-tab="register">
+                        Get Started Free
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:6px;">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <a href="#features" class="landing-btn-ghost-light">Explore Features</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+@section Head {
+    <link rel="stylesheet" href="~/css/pages/home.css" asp-append-version="true" />
+}

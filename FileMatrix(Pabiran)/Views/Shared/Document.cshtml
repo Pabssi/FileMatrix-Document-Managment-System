@@ -1,0 +1,101 @@
+@model FileMatrix_Pabiran_.Models.DocumentDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Document.Title + " - FileMatrix Viewer";
+    Layout = "_Layout"; 
+}
+
+    <link rel="stylesheet" href="~/css/shared/document-viewer.css" asp-append-version="true" />
+
+<div class="standalone-viewport">
+    <div class="viewer-header">
+        <div class="d-flex align-items-center gap-3">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
+                <img src="~/images/FileMatrix.png" alt="Logo" height="28" />
+            </a>
+            <div class="d-flex flex-column">
+                <h1 class="h6 mb-0 fw-bold text-dark">@Model.Document.Title</h1>
+                <div class="d-flex align-items-center gap-2 mt-1">
+                    <span class="doc-info-badge">v@(Model.Document.CurrentVersionNumber)</span>
+                    <span class="text-muted small" style="font-size: 0.7rem;">Updated @Model.Document.UpdatedAt.ToString("MMM dd, yyyy")</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-area="Admin" asp-controller="Admin" asp-action="Index" class="btn-action text-muted me-2" style="font-size:0.75rem;">
+                    Back to Workspace
+                </a>
+            }
+            <a href="@Url.Action("Download", "Documents", new { area = "Admin", id = Model.Document.DocumentID, token = Model.Document.PublicShareToken })" class="btn-action btn-download">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Download
+            </a>
+        </div>
+    </div>
+
+    <div class="viewer-content">
+        @if (Model.Document.IsOfficeDocument)
+        {
+            @* Office Viewer Integration: Microsoft requires a publicly reachable direct URL.
+               We provide a signed Cloudinary URL so Microsoft can fetch the private file. *@
+            var fileUrl = Model.Document.SignedUrl;
+            var encodedUrl = System.Net.WebUtility.UrlEncode(fileUrl);
+            var officeViewerUrl = $"https://view.officeapps.live.com/op/view.aspx?src={encodedUrl}";
+
+            <iframe src="@officeViewerUrl" class="viewer-iframe"></iframe>
+        }
+        else if (Model.Document.IsPdf)
+        {
+            var fileUrl = Url.Action("ViewFile", "Documents", new { area = "Admin", id = Model.Document.DocumentID, token = Model.Document.PublicShareToken });
+            <iframe src="@fileUrl" class="viewer-iframe"></iframe>
+        }
+        else if (Model.Document.IsImage)
+        {
+            var fileUrl = Url.Action("ViewFile", "Documents", new { area = "Admin", id = Model.Document.DocumentID, token = Model.Document.PublicShareToken });
+            <div class="image-viewport" id="viewport">
+                <img src="@fileUrl" class="zoomable-image" id="zoomImage" alt="@Model.Document.Title" />
+            </div>
+            
+            <div class="zoom-toolbar">
+                <button class="zoom-btn" onclick="adjustZoom(-0.2)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+                <span class="zoom-level" id="zoomLevel">100%</span>
+                <button class="zoom-btn" onclick="adjustZoom(0.2)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-4">
+                <div class="bg-white rounded-circle p-4 mb-3 shadow-sm">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                </div>
+                <h4 class="fw-bold text-dark">Preview not available</h4>
+                <p class="text-muted small max-w-md">This file type cannot be previewed directly in the browser. Please download it to view the contents.</p>
+                <a href="@Url.Action("Download", "Documents", new { area = "Admin", id = Model.Document.DocumentID, token = Model.Document.PublicShareToken })" class="btn btn-primary rounded-pill px-4 mt-2">
+                    Download File
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let currentZoom = 1;
+        const zoomImage = document.getElementById('zoomImage');
+        const zoomLevelText = document.getElementById('zoomLevel');
+
+        function adjustZoom(delta) {
+            if (!zoomImage) return;
+            currentZoom = Math.max(0.2, Math.min(3, currentZoom + delta));
+            zoomImage.style.transform = `scale(${currentZoom})`;
+            zoomLevelText.innerText = Math.round(currentZoom * 100) + '%';
+        }
+    </script>
+}

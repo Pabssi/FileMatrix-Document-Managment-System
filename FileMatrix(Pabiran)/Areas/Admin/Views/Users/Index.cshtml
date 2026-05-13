@@ -1,0 +1,134 @@
+@model FileMatrix_Pabiran_.Areas.Admin.Models.UserManagementViewModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "User Management";
+}
+
+@section Head {
+    <link rel="stylesheet" href="~/css/admin/users.css" asp-append-version="true" />
+}
+
+<div class="users-page-header reveal-on-scroll">
+    <h1 class="users-page-title">Team Management</h1>
+    <p class="users-page-subtitle">Managing members and access control for @Model.WorkplaceName.</p>
+</div>
+
+<div class="row g-4 mb-4 reveal-on-scroll">
+    <div class="col-md-4">
+        <div class="stat-mini-card">
+            <div class="stat-mini-icon" style="background: rgba(79, 70, 229, 0.1); color: #4f46e5;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div>
+                <div class="fw-bold text-dark fs-5">@Model.Members.Count</div>
+                <div class="text-muted small fw-semibold text-uppercase">Total Members</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-mini-card">
+            <div class="stat-mini-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+            </div>
+            <div>
+                <div class="fw-bold text-dark fs-5">@Model.Members.Count(m => m.IsActive)</div>
+                <div class="text-muted small fw-semibold text-uppercase">Active Users</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-mini-card">
+            <div class="stat-mini-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <div>
+                <div class="fw-bold text-dark fs-5">@Model.Members.Count(m => m.RoleName == "Admin")</div>
+                <div class="text-muted small fw-semibold text-uppercase">Workspace Admins</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="users-toolbar d-flex align-items-center gap-3 reveal-on-scroll">
+    <div class="search-group">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="form-control users-search-input" placeholder="Search team members by name or email..." />
+    </div>
+    <a href="@Url.Action("Index", "Invitations")" class="btn add-user-btn">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
+        Invite Member
+    </a>
+</div>
+
+<div class="user-table-card reveal-on-scroll">
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Joined At</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (member, index) in Model.Members.Select((m, i) => (m, i)))
+                {
+                    var gradientClass = $"avatar-g{(index % 4) + 1}";
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="user-avatar @gradientClass">
+                                    @(string.IsNullOrEmpty(member.Username) ? "?" : member.Username.Substring(0, 1).ToUpper())
+                                </div>
+                                <div>
+                                    <div class="user-name">@member.Username</div>
+                                    <div class="user-email">@member.Email</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="role-badge role-@(member.RoleName.ToLower())">@member.RoleName</span>
+                        </td>
+                        <td>
+                            <div class="status-pill @(member.IsActive ? "status-active" : "status-inactive")">
+                                <div class="status-dot"></div>
+                                <span>@(member.IsActive ? "Active" : "Suspended")</span>
+                            </div>
+                        </td>
+                        <td class="text-muted small fw-bold">
+                            @member.JoinedAt.ToString("MMM dd, yyyy")
+                        </td>
+                        <td class="text-end">
+                            <div class="dropdown">
+                                <button class="action-btn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg">
+                                    <li>
+                                        <form asp-action="ToggleStatus" method="post">
+                                            <input type="hidden" name="userId" value="@member.UserID" />
+                                            <button type="submit" class="dropdown-item">
+                                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                                                @(member.IsActive ? "Suspend User" : "Activate User")
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li><hr class="dropdown-divider opacity-50"></li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="#">
+                                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                            Remove from Workspace
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

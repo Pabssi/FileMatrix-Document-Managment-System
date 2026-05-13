@@ -1,0 +1,123 @@
+/* ============================================
+   SuperAdmin Audit Logs — Admin UI
+   ============================================ */
+
+.log-table-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-weight: 700;
+    padding: 1rem 1.5rem;
+}
+
+.table tbody td {
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+    color: #1e293b;
+    font-size: .8125rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.log-action-badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.log-action--create {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.log-action--update {
+    background: #eff6ff;
+    color: #1e40af;
+}
+
+.log-action--delete {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.log-action--login {
+    background: #f5f3ff;
+    color: #5b21b6;
+}
+
+.log-timestamp {
+    font-family: 'JetBrains Mono', monospace;
+    color: #64748b;
+}
+
+.log-details {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Toolbar: severity + pagination (Super Admin audit pages) */
+.sa-audit-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.sa-audit-toolbar .form-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.sa-severity-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+}
+
+.sa-severity-badge--critical {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.sa-severity-badge--high {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.sa-severity-badge--normal {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.sa-log-pager .pagination .page-link {
+    border-radius: 0.5rem;
+    margin: 0 0.1rem;
+}
+
+.sa-log-pager .pagination .page-item.active .page-link {
+    background: #4f46e5;
+    border-color: #4f46e5;
+}

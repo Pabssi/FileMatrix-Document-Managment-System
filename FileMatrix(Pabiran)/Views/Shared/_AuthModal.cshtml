@@ -1,0 +1,145 @@
+@*
+    FileMatrix Shared Authentication Modal.
+    
+    RESPONSIBILITY: Provides a unified UI for Login and Registration.
+    DESIGN: Uses a 'Hidden Tab' strategy where the underlying Bootstrap tabs 
+    are hidden, and the UI is controlled via data-attributes and custom JS 
+    to provide a seamless, non-tabbed feel.
+*@
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md auth-modal-dialog">
+    <div class="modal-content auth-modal-card overflow-hidden">
+
+      @* Header area *@
+      <div class="auth-modal-header">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="d-flex align-items-center gap-3">
+            <div class="auth-modal-logo">
+              <img src="~/images/FileMatrix.png" alt="FileMatrix" width="32" height="32" style="border-radius: 6px;" />
+            </div>
+            <div>
+              <h5 id="authModalTitle" class="mb-0">Sign In</h5>
+              <div id="authModalSubtitle" class="auth-modal-subtitle">
+                Enter your credentials to access your account
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-sm auth-modal-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+        </div>
+      </div>
+
+      @* Body area *@
+      <div class="modal-body bg-white">
+        <div class="auth-modal-body-inner">
+          @* Alert container  *@
+          <div id="authModalAlertContainer"></div>
+
+          @* Keep hidden tabs  *@
+          <ul class="nav nav-tabs mb-3 d-none" id="authTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Sign In</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">Register</button>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="login" role="tabpanel">
+              @* Render login partial (form unchanged) *@
+              <partial name="~/Views/Account/_LoginPartial.cshtml" model="new FileMatrix_Pabiran_.Models.LoginViewModel()" />
+            </div>
+            <div class="tab-pane fade" id="register" role="tabpanel">
+              @* Render register partial (form unchanged) *@
+              <partial name="~/Views/Account/_RegisterPartial.cshtml" model="new FileMatrix_Pabiran_.Models.RegisterViewModel()" />
+            </div>
+          </div>
+        </div>
+
+        @* Footer: toggle between login and register *@
+        <div class="auth-modal-footer-bar">
+          <span data-auth-footer="login">
+            Don&rsquo;t have an account?
+            <a href="javascript:void(0);" class="auth-toggle-link" data-target-tab="register">Sign up</a>
+          </span>
+          <span data-auth-footer="register" class="d-none">
+            Already have an account?
+            <a href="javascript:void(0);" class="auth-toggle-link" data-target-tab="login">Sign in</a>
+          </span>
+        </div>
+      </div>
+
+
+      <script>
+        (function(){
+          try {
+            var modalEl = document.getElementById('authModal');
+            if (!modalEl) return;
+
+            // DYNAMIC HEADER ORCHESTRATION: 
+            // Updates titles, subtitles, and footers based on the active state 
+            // (Login vs Register) to provide a tailored user context.
+            function updateHeader(tab) {
+              var title = modalEl.querySelector('#authModalTitle');
+              var subtitle = modalEl.querySelector('#authModalSubtitle');
+              var loginFooter = modalEl.querySelector('[data-auth-footer="login"]');
+              var registerFooter = modalEl.querySelector('[data-auth-footer="register"]');
+              if (!title || !subtitle) return;
+              if (tab === 'register') {
+                title.textContent = 'Create Account';
+                subtitle.textContent = 'Get started with FileMatrix today';
+                if (loginFooter && registerFooter) {
+                    loginFooter.classList.add('d-none');
+                    registerFooter.classList.remove('d-none');
+                }
+              } else {
+                title.textContent = 'Sign In';
+                subtitle.textContent = 'Enter your credentials to access your account';
+                if (loginFooter && registerFooter) {
+                    loginFooter.classList.remove('d-none');
+                    registerFooter.classList.add('d-none');
+                }
+              }
+            }
+
+            modalEl.addEventListener('show.bs.modal', function (e) {
+              var trigger = e.relatedTarget;
+              var requested = null;
+              try { requested = trigger && trigger.getAttribute('data-auth-tab'); } catch (ex) { requested = null; }
+              if (!requested) {
+                var active = modalEl.querySelector('.nav-link.active');
+                if (active && active.id) requested = active.id.replace('-tab','');
+              }
+              updateHeader(requested || 'login');
+            });
+
+            var tabButtons = modalEl.querySelectorAll('[data-bs-toggle="tab"]');
+            tabButtons.forEach(function(btn){
+              btn.addEventListener('shown.bs.tab', function(ev){
+                var id = ev.target && ev.target.id ? ev.target.id.replace('-tab','') : 'login';
+                updateHeader(id);
+              });
+            });
+
+            // TAB SWITCHING: The 'Toggle-as-Link' pattern. 
+            // Allows the footer links to trigger Bootstrap tab transitions, 
+            // ensuring the header and body stay synchronized.
+            var toggleLinks = modalEl.querySelectorAll('.auth-toggle-link');
+            toggleLinks.forEach(function (lnk) {
+                lnk.addEventListener('click', function () {
+                    var targetTab = lnk.getAttribute('data-target-tab') || 'login';
+                    var tabButton = modalEl.querySelector('#' + targetTab + '-tab');
+                    if (tabButton && window.bootstrap && bootstrap.Tab) {
+                        var t = new bootstrap.Tab(tabButton);
+                        t.show();
+                    }
+                });
+            });
+          } catch (e) { console.error(e); }
+        })();
+      </script>
+
+    </div>
+  </div>
+</div>

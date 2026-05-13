@@ -1,0 +1,35 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model FileMatrix_Pabiran_.Models.LoginViewModel
+<form asp-area="" asp-controller="Account" asp-action="Login" method="post" id="loginForm" data-recaptcha-sitekey="@Configuration["Recaptcha:SiteKey"]">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="UsernameOrEmail" class="form-label"></label>
+        <input asp-for="UsernameOrEmail" class="form-control" />
+        <span asp-validation-for="UsernameOrEmail" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="RememberMe" class="form-check-input" />
+        <label asp-for="RememberMe" class="form-check-label"></label>
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+    </div>
+
+    <div class="text-center">
+        <a href="/Account/ForgotPassword" class="text-muted" style="font-size:.85rem;">Forgot password?</a>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

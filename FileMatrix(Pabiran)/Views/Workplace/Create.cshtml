@@ -1,0 +1,82 @@
+@model FileMatrix_Pabiran_.Models.Workplace
+@{
+    ViewData["Title"] = "Create Workspace";
+}
+
+<div class="workspace-hero">
+    <div class="container py-5 py-md-6">
+        <div class="text-center mb-4 mb-md-5">
+            <div class="workspace-logo-card mb-3">
+                <div class="workspace-logo-inner"></div>
+            </div>
+            <h1 class="workspace-brand mb-1">FileMatrix</h1>
+            <p class="workspace-greeting mb-1">Welcome, Admin User!</p>
+            <p class="workspace-subtitle">Let's set up your workspace to get started</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9">
+                <div class="workspace-form-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <a asp-action="Index" class="workspace-back-link me-2">
+                            &larr;
+                        </a>
+                        <div>
+                            <h2 class="workspace-form-title mb-1">Set Up Your Workspace</h2>
+                            <p class="workspace-form-subtitle mb-0">Configure your workspace in seconds</p>
+                        </div>
+                    </div>
+
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Workspace Name</label>
+                            <input asp-for="Name" class="form-control workspace-input" placeholder="Acme Corporation" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label d-block">Workspace Type</label>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="workspace-type-tile">
+                                        <input type="radio" name="Description" value="Business" class="d-none" @(Model?.Description == "Business" ? "checked" : "") />
+                                        <span class="workspace-type-inner">
+                                            <span class="workspace-type-label">Business</span>
+                                            <span class="workspace-type-desc">For companies</span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="workspace-type-tile">
+                                        <input type="radio" name="Description" value="Team" class="d-none" @(Model?.Description == "Team" ? "checked" : "") />
+                                        <span class="workspace-type-inner">
+                                            <span class="workspace-type-label">Team</span>
+                                            <span class="workspace-type-desc">For groups</span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="workspace-type-tile">
+                                        <input type="radio" name="Description" value="Personal" class="d-none" @(Model?.Description == "Personal" ? "checked" : "") />
+                                        <span class="workspace-type-inner">
+                                            <span class="workspace-type-label">Personal</span>
+                                            <span class="workspace-type-desc">Just for you</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary workspace-primary-btn">Create Workspace</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Head {
+    <link rel="stylesheet" href="~/css/pages/workplace.css" asp-append-version="true" />
+}
